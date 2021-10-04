@@ -1,75 +1,51 @@
 package com.bz.objectoriented;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Random;
 
 public class DeckOfCards {
 
-	static final int numOfPlayers = 4;
-	static final int numOfCardsPerPlayer = 9;
+	static String[] Clubs = { "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "CJack", "CQueen", "CKing",
+			"CAce" };
 
-	static String[] suits = { "Diamond", "Heart", "Spades", "Club" };
-	static String[] rank = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace" };
+	static String[] Diamonds = { "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "DJack", "DQueen", "DKing",
+			"DAce" };
+
+	static String[] Hearts = { "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "HJack", "HQueen", "HKing",
+			"HAce" };
+
+	static String[] Spades = { "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "SJack", "SQueen", "SKing",
+			"SAce" };
+
+	static String[][] deck = { Clubs, Diamonds, Hearts, Spades };
+	static String[][] newDeck;
+
+	public static void distribute() {
+
+		newDeck = deck;
+		for (int i = 1; i < 5; i++) {
+			System.out.println("For Player" + i);
+			for (int j = 1; j < 10; j++) {
+				selectCard();
+			}
+			System.out.println("");
+		}
+	}
+
+	public static void selectCard() {
+		Random c = new Random();
+		int suit = c.nextInt(4);
+		int rank = c.nextInt(13);
+		if (newDeck[suit][rank] == null) {
+			selectCard();
+		} else {
+			System.out.println(newDeck[suit][rank]);
+			newDeck[suit][rank] = null;
+		}
+	}
 
 	public static void main(String[] args) {
+		System.out.println("Welcome In Deck Of Cards Program");
+		distribute();
 
-		// Creating object for DeckOfCards class
-		DeckOfCards deckOfCards = new DeckOfCards();
-
-		String[][] totalCards = deckOfCards.generateCards(suits, rank);
-		Set<String> cards = new HashSet<String>();
-
-		// Creating 'player' to stores the cards of all(4) player
-		String[][] player = new String[numOfPlayers][numOfCardsPerPlayer];
-		int i = 0, j = 0, k = 0, l = 0, m = 0;
-
-		int totalCardsDistribute = numOfPlayers * numOfCardsPerPlayer;
-		while (i < totalCardsDistribute) {
-			int randomSuit = (int) Math.floor(Math.random() * 10) % 4;
-			int randomRank = (int) Math.floor(Math.random() * 100) % 13;
-
-			if (cards.add(totalCards[randomSuit][randomRank])) {
-				if (i % 4 == 0) {
-					player[i % 4][j] = totalCards[randomSuit][randomRank];
-					j++;
-					i++;
-				} else if (i % 4 == 1) {
-					player[i % 4][k] = totalCards[randomSuit][randomRank];
-					k++;
-					i++;
-				} else if (i % 4 == 2) {
-					player[i % 4][l] = totalCards[randomSuit][randomRank];
-					l++;
-					i++;
-				} else if (i % 4 == 3) {
-					player[i % 4][m] = totalCards[randomSuit][randomRank];
-					m++;
-					i++;
-				}
-			}
-		}
-		// calling printPlayerCard method
-		deckOfCards.printPlayerCard(player);
-	}
-
-	public String[][] generateCards(String[] suits, String[] rank) {
-
-		String[][] totalCards = new String[4][13];
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 13; j++) {
-				totalCards[i][j] = suits[i] + rank[j];
-			}
-		}
-		return totalCards;
-	}
-
-	public void printPlayerCard(String[][] player) {
-		for (int i = 0; i < numOfPlayers; i++) {
-			System.out.print("Player " + (i + 1) + " : ");
-			for (int j = 0; j < numOfCardsPerPlayer; j++) {
-				System.out.print(player[i][j] + " ");
-			}
-			System.out.println();
-		}
 	}
 }
